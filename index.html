@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Strandolás Magyarországon. A Balaton, Tisza-tó és a Szelidi-tó homokos strandja, szállodája, kempingjei, magánüdülõi, vendéglõi, szabadtéri színpada nyugodt kikapcsolódást és mozgalmas szórakozást kínálnak az idelátogató vendégeknek.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/styles.css">
+        <title>Hurrá, nyaralunk !</title>
+        <link rel="icon" type="image/x-icon" href="img/beach.svg">
+    </head>
+
+    <body>
+        <main>
+            <header>
+                <h1>Hurrá, nyaralunk !</h1>
+                <img src="img/beach.jpg" alt="A Maros-part">
+            </header>
+            <div class="row">
+                <div class="left-column">
+                    <div class="sidenav">
+                        <a href="#szekcio1"><img src="img/beach.svg">&nbsp; Balaton</a>
+                        <a href="#szekcio2"><img src="img/beach.svg">&nbsp; Tisza-tó</a>
+                        <a href="#szekcio3"><img src="img/beach.svg">&nbsp; Szelidi-tó</a>
+                    </div>
+                    <hr>
+                    <form action="/feldolgoz.php" method="POST" enctype="multipart/form-data">
+                        <h4>Kérem töltse ki a jelentkezési űrlapot</h4>
+                        <p id="need"> <small>A pirossal jelzett adatok szükségesek a jelentkezéshez.</small> </p>
+                        <label for="nev" class="req">Név:<span class="red"> *</span></label>
+                        <input type="text" id="nev" name="nev" placeholder="Ide írhatja becses nevét.." maxlength="20" required>
+                        <hr>
+                        <label for="email" class="req">E-mail cím:<span class="red"> *</span> </label>
+                        <input type="email" id="email" name="email" placeholder="glazser.bozso@webmuvek.com" required>
+                        <hr>
+                        <label for="telefon">Telefonszám:</label><br>
+                        <small>Kérem kövesse a formát: 36-20-5363059 </small>
+                        <input type="tel" id="telefon" name="telefon" pattern="[0-9]{2}-[0-9]{2}-[0-9]{7}" placeholder="36-20-5363059">
+                        <hr>
+                        <label for="lake">Melyik tó érdekli?:</label>
+                        <select name="lake" id="lake">
+                            <option value="">Még nem döntöttem</option>
+                            <option value="Balaton">Balaton</option>
+                            <option value="Tisza-tó">Tisza-tó</option>
+                            <option value="Szelidi-tó">Szelidi-tó</option>
+                        </select>
+                        <hr>
+                        <h4>Milyen szállást keres?</h4>
+                        <ul class="csekbox">
+                            <li><label for="hotel">Szálloda &nbsp;&nbsp;</label>
+                                <input type="checkbox" name="hotel" id="hotel" value="szálloda">
+                            </li>
+                            <li><label for="kemping">Kemping &nbsp;</label>
+                                <input type="checkbox" name="kemping" id="kemping" value="kemping">
+                            </li>
+                            <li> <label for="apartman">Apartmanház </label>
+                                <input type="checkbox" name="apartman" id="apartman" value="apartman">
+                            </li>
+                        </ul>
+                        <hr>
+                        <h4>Milyen ellátás legyen?</h4>
+                        <ul class="radiok">
+                            <li><label for="teljes">Teljes &nbsp;</label>
+                                <input type="radio" id="teljes" name="ellatas" value="teljes">
+                            </li>
+                            <li><label for="fel">Félpanzió &nbsp;</label>
+                                <input type="radio" id="fel" name="ellatas" value="félpanzió">
+                            </li>
+                            <li><label for="reggeli">Csak reggeli &nbsp;</label>
+                                <input type="radio" id="reggeli" name="ellatas" value="csak reggeli">
+                            </li>
+                            <li><label for="semmi">Nem kérek ellátást </label>
+                                <input type="radio" id="semmi" name="ellatas" value="nem igényelt">
+                            </li>
+                        </ul>
+                        <label for="megjegy">Egyéb üzenet:</label>
+                        <textarea id="megjegy" name="megjegy" placeholder="Ha szeretne még valamit megemlíteni..." style="height:200px"></textarea>
+                        <label for="adatkez">Hozzájárulok adataim kezeléséhez &nbsp;</label>
+                        <input type="checkbox" name="adatkez" id="adatkez" value="hozzájárul">
+                        <input type="submit" onclick="postaz()" value="Mehet">
+                    </form>
+                    <div id="hide">
+                        <p>Mivel Ön nem járult hozzá adatai kezeléséhez, így a kitöltött űrlapok nem kerülhetnek feldolgozésra.</p>
+                    </div>
+                    <div class="rejtve">
+                        <hr>
+                        <p class="rejtve">Tisztelt &nbsp; <b id="neved"></b> ! &nbsp; Hirdetése a következő adatokkal kerül elküldésre:</p>
+                        <p> <b>Név:</b></p>
+                        <p id="m"></p>
+                        <p><b>E-mail:</b></p>
+                        <p id="emil"></p>
+                        <p><b>Telefonszám:</b></p>
+                        <p id="telcsi"></p>
+                        <p><b>A választott tó:</b></p>
+                        <p id="to"></p>
+                        <p><b>Ellátási forma:</b></p>
+                        <p id="food"></p>
+                        <p><b>Az Ön kiegészítése:</b></p>
+                        <p id="kieg"></p>
+                        <p><b>Ezek a szállások érdeklik Önt:</b></p>
+                        <p id="ho"></p>
+                        <p id="ke"></p>
+                        <p id="ap"></p>
+                    </div>
+                    <div>
+                    <p>Adatkezelési szabályzatunkat itt megtekintheti:</p>
+                    <a href="gdpr.rtf" target="_blank">
+                    <button class="gdpr">GDPR</button>
+                    </a>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <section id="szekcio1">
+                        <h2>Balaton</h2>
+                        <div class="tartalom">
+                            <img class="jobbra" src="img/lakebalaton.jpg" alt="A Balaton" title="A Balaton műhold-felvételen">
+                            <p> "Magyar elnevezése a szláv „blato”, "boloto" (mocsár, láp, sár) szóból ered, amely viszont a görög "βαλτό"-ra vezethetô vissza. Latin neve, a Lacus Pelso magyarul sekély tavat jelent. " </p>
+                            <p> "A Balaton Magyarország legnagyobb tava, Európa-hírű természeti kincsünk. Legnagyobb mélysége Tihanynál 11-12,5 m, átlagos mélysége 3–4 m. A déli parton sekélyebb a víz, ezért nyáron hamar felmelegszik, fürdőzésre kiválóan alkalmas. Északi partján a Bakony déli előterét alkotó Balaton-felvidék szőlőkkel, erdőkkel borított hegyei emelkednek. A Balaton Közép-Európa legnagyobb tava, nagysága 594 km². A tóban kb. 1800 millió köbméter víz van." </p>
+                            <p>"A Balaton hossza kb. 77 km, szélessége 1,3 km és 14 km között változik. A Balaton parthossza 195 kilométer, s érdekessége, hogy már a rómaiak is szabályozták a vizét. A Balaton mai formáját a 19. században nyerte el a tó partján futó vasúti töltések kialakítása során." </p>
+                        </div>
+                        <p class="link_jobbra"> Forrás: <a class="link" href="https://www.idegenvezetok-veszprem.org/idegenvezetes-a-balatonon/balatoni-erdekessegek.html" target="_blank">&nbsp; https://www.idegenvezetok-veszprem.org/idegenvezetes-a-balatonon</a>
+                        </p>
+                        <a href="https://hu.wikipedia.org/wiki/Balaton" target="_blank">
+                            <img class="kep" src="img/balaton2.jpg" alt="Balatoni este" title="https://hu.wikipedia.org/wiki/Balaton">
+                        </a>
+                    </section>
+                    <section id="szekcio2">
+                        <h2>A Tisza-tó</h2>
+                        <div class="tartalom">
+                            <img class="jobbra" src="img/tiszato.jpg" alt="Tisza-tó" title="A Tisza-tó dron-felvételen">
+                            <p> "A Tisza-tó (1988-ig Kiskörei víztározó) Magyarország második legnagyobb tava és legnagyobb mesterséges tava a Tiszán, az Alföld északi részén. Létrehozásának legfontosabb okai a Kiskörei Vízerőmű működéséhez szükséges egyenletes vízhozam biztosítása volt, valamint az ugyanebben az időszakban, Tiszaújvárosban telepített új Tiszai Hőerőmű működéséhez szükséges magas vízszint biztosítása duzzasztással. 1967-1973 között építették fel a Kiskörei Erőművet a duzzasztógáttal a tiszai áradások szabályozása és az Alföld hatékonyabb vízellátása végett. Feltöltése 1978-ban fejeződött be. A mesterséges tó vize egykori holtágakat, vízfolyásokat, legelőket, erdőket, szántóföldeket borított el. " </p>
+                            <p> "A Tisza-tó Magyarország második legnagyobb tava, amely az Alföld északi részén terül el. 127 km2-én számtalan sziget, holtág, és sekély kis csatorna váltja egymást a hatalmas, nyílt vízterületekkel, jellegzetes, úgynevezett mozaikos tájat formálva. A Tisza-tó a Hortobágyi Nemzeti Park negyedik bemutató területe, s így 1999 óta az UNESCO Világörökség része. A Tisza-tónál a kikapcsolódás is legalább annyira változatos, mint maga a táj. A természetjáráson kívül a nyugodt strandolástól a vízisportok kipróbálásáig számtalan lehetőség kínálkozik." </p>
+                            <p>"A part mentén hat szabad vízi strandon, valamint Tiszafüreden termálfürdőkben pihenhetünk, míg Abádszalók térségében extrém vízi sportolás, pezsgő éjszakai élet és szórakozóhelyek várják a látogatókat. A különböző mélységű vizeket őshonos halfajták lakják, a horgászat pedig a szabályok betartása mellett engedélyezett. A Tisza-tavi horgászrendet itt tekintheti meg A tó páratlan vadvízi világot rejt, kalandos utazásra csábítva a természetjárókat, minden évszakban más és más szabadidős lehetőséget kínálva. Egész évben válogathatunk az útvonalak között, és bejárhatjuk a vidéket gyalog, kerékpárral, lóháton, vagy csónakba szállva." </p>
+                        </div>
+                        <p class="link_jobbra"> Forrás: <a class="link" href="http://www.tiszataviokocentrum.hu/hu/tisza-to/altalanos" target="_blank">&nbsp; http://www.tiszataviokocentrum.hu/hu/tisza-to/altalanos</a>
+                        </p>
+                        <a href="https://hu.wikipedia.org/wiki/Tisza-t%C3%B3" target="_blank">
+                            <img class="kep" src="img/tisza-to.jpg" alt="Tiszat-tó" title="https://hu.wikipedia.org/wiki/Tisza-t%C3%B3">
+                        </a>
+                    </section>
+                    <section id="szekcio3">
+                        <h2>A Szelidi-tó</h2>
+                        <div class="tartalom">
+                            <img class="jobbra" src="img/szelidi-to.jpg" alt="Szelidi-tó" title="A Szelidi-tó dron-felvételen">
+                            <p> "A Solti-síkság területén fekvő Szelidi-tó mintegy 5 kilométer hosszú, 150-200 m széles, vízfelülete 72 hektár, átlagos vízmélysége 3-4 méter, vize nyáron akár 28°C-ra is felmelegedhet, így fürdõzésre kiválóan alkalmas. A talajból sok nátrium-magnézium-karbonát és nátrium-jodid oldódik ki, ezért már a középkorban sebgyógyításra használták, ma inkább idegrendszeri, hormonális és reumatikus bántalmak kezelésére ajánlják. Vize szagtalan a gyógyfürdõkkel ellentétben, jelenleg még nem minõsített gyógyvíz, ezért üdülõfalu létesült a környezetében. " </p>
+                            <p> "A Szelidi-tó a tőle 3 kilométerre található Dunapataj nagyközséghez tartozik. A tó és az azt övező szikes rétek és legelők 1976 óta védett területek, melyek a Kiskunsági Nemzeti Parkhoz tartoznak. A tavat a még a Duna vize mélyített ki évezredekkel ezelőtt. " </p>
+                            <p>"Már a törökök is felfedezték a tó gyógyító hatását. Vizének gyógyító ereje, annak jódtartalmában rejlett, amely mára sajnos jelentéktelen mennyiségre csökkent. Ezen kívül a tó vízminőségének egyediségét a víz sóösszetétele és annak mennyisége jelenti. Az utóbbi évtizedekben a tó vize jelentős változásokon ment keresztül a dunai vizet szállító csatornával való vízpótlás miatt. A vízpótlással a víz minősége ugyan nem romlik, de szikes eredetű sóösszetétele kissé felhígult." </p>
+                        </div>
+                        <p class="link_jobbra"> Forrás: <a class="link" href="https://www.szelidi-to.hu/info_to_hun.html" target="_blank">&nbsp; https://www.szelidi-to.hu/info_to_hun.html</a>
+                        </p>
+                        <a href="https://csodalatosmagyarorszag.hu/latnivalok/termeszeti-ertekek/szelidi-to/" target="_blank">
+                            <img class="kep" src="img/szelidi_to.jpg" alt="Tiszat-tó" title="https://csodalatosmagyarorszag.hu/latnivalok/termeszeti-ertekek/szelidi-to/">
+                        </a>
+                    </section>
+                </div>
+            </div>
+            <footer>
+                <h4>Ferko Művek &copy; 2022 - Prooktatás</h4>
+            </footer>
+        </main>
+        <script>
+            function postaz() {
+
+                if (document.getElementById("adatkez").checked == true) {
+                    const collection = document.getElementsByClassName("rejtve");
+                    collection[0].style.visibility = "visible";
+                    collection[1].style.visibility = "visible";
+
+                    document.getElementById("neved").innerHTML = document.getElementById("nev").value;
+                    document.getElementById("m").innerHTML = document.getElementById("nev").value;
+                    document.getElementById("emil").innerHTML = document.getElementById("email").value;
+                    document.getElementById("telcsi").innerHTML = document.getElementById("telefon").value;
+                    document.getElementById("to").innerHTML = document.getElementById("lake").value;
+                    document.getElementById("food").innerHTML = document.querySelector('input[name="ellatas"]:checked').value;
+                    document.getElementById("kieg").innerHTML = document.getElementById("megjegy").value;
+
+                    var hot = document.getElementById("hotel").value;
+
+                    if (document.getElementById("hotel").checked == true) {
+                        document.getElementById("ho").innerHTML = hot;
+                    }
+
+                    var kem = document.getElementById("kemping").value;
+
+                    if (document.getElementById("kemping").checked == true) {
+                        document.getElementById("ke").innerHTML = kem;
+                    }
+
+                    var apar = document.getElementById("apartman").value;
+                    if (document.getElementById("apartman").checked == true) {
+                        document.getElementById("ap").innerHTML = apar;
+                    }
+
+                    document.getElementById("hide").style.visibility = "hidden";
+                    document.getElementById("hide").style.lineHeight = "0"; 
+                }
+                else{
+                    document.getElementById("hide").style.visibility = "visible";
+                    collection[0].style.lineHeight = "0"; 
+                }
+            }
+        </script>
+    </body>
+
+</html>
