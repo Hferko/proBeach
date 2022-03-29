@@ -28,7 +28,7 @@
                         <a href="#szekcio3"><img src="img/beach.svg">&nbsp; Szelidi-tó</a>
                     </div>
                     <hr>
-                    <form action="/feldolgoz.php">
+                    <form action="feldolgoz.php" method="GET" enctype="multipart/form-data">
                         <h4>Kérem töltse ki a jelentkezési űrlapot</h4>
                         <p id="need"> <small>A pirossal jelzett adatok szükségesek a jelentkezéshez.</small> </p>
                         <label for="nev" class="req">Név:<span class="red"> *</span></label>
@@ -80,13 +80,13 @@
                         <label for="megjegy">Egyéb üzenet:</label>
                         <textarea id="megjegy" name="megjegy" placeholder="Ha szeretne még valamit megemlíteni..." style="height:200px"></textarea>
                         <label for="adatkez">Hozzájárulok adataim kezeléséhez &nbsp;</label>
-                        <input type="checkbox" name="adatkez" id="adatkez" value="hozzájárul">
+                        <input type="checkbox" name="adatkez" id="adatkez" value="hozzájárul" required>
                         <input type="submit" onclick="postaz()" value="Mehet">
                     </form>
                     <div id="hide">
-                        <p>Mivel Ön nem járult hozzá adatai kezeléséhez, így a kitöltött űrlapok nem kerülhetnek feldolgozésra.</p>
+                        <p>Mivel Ön nem járult hozzá adatai kezeléséhez, így a kitöltött űrlapok nem kerülhetnek feldolgozásra.</p>
                     </div>
-                    <div class="rejtve">
+                    <div id="rejtve">
                         <hr>
                         <p class="rejtve">Tisztelt &nbsp; <b id="neved"></b> ! &nbsp; Hirdetése a következő adatokkal kerül elküldésre:</p>
                         <p> <b>Név:</b></p>
@@ -166,9 +166,7 @@
             function postaz() {
 
                 if (document.getElementById("adatkez").checked == true) {
-                    const collection = document.getElementsByClassName("rejtve");
-                    collection[0].style.visibility = "visible";
-                    collection[1].style.visibility = "visible";
+                    document.getElementById("rejtve").style.visibility = "visible";
 
                     document.getElementById("neved").innerHTML = document.getElementById("nev").value;
                     document.getElementById("m").innerHTML = document.getElementById("nev").value;
@@ -199,8 +197,7 @@
                     document.getElementById("hide").style.lineHeight = "0"; 
                 }
                 else{
-                    document.getElementById("hide").style.visibility = "visible";
-                    collection[0].style.lineHeight = "0"; 
+                    document.getElementById("hide").style.visibility = "visible";                    
                 }
             }
         </script>
